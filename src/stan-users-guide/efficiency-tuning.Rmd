@@ -1172,7 +1172,7 @@ positive outcomes out of a total of `N` trials.
 
 This can be generalized to other discrete cases (one wouldn't expect
 continuous observations to be duplicated if they are random).  Suppose
-there are only $K$ possible discrete outcomes, $z_1, \ldots, z_K$, but
+there are only $K$ possible discrete outcomes, $z_1, \dotsc, z_K$, but
 there are $N$ observations, where $N$ is much larger than $K$.  If
 $f_k$ is the frequency of outcome $z_k$, then the entire likelihood
 with distribution `foo` can be coded as follows.
@@ -1236,8 +1236,8 @@ Stan programs will run faster if the input is standardized to have a
 zero sample mean and unit sample variance.  This section illustrates
 the principle with a simple linear regression.
 
-Suppose that $y = (y_1,\ldots,y_N)$ is a sequence of $N$ outcomes and
-$x = (x_1,\ldots,x_N)$ a parallel sequence of $N$ predictors.  A
+Suppose that $y = (y_1,\dotsc,y_N)$ is a sequence of $N$ outcomes and
+$x = (x_1,\dotsc,x_N)$ a parallel sequence of $N$ predictors.  A
 simple linear regression involving an intercept coefficient $\alpha$
 and slope coefficient $\beta$ can be expressed as
 $$

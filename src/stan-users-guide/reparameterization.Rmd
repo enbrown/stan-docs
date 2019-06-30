@@ -461,7 +461,7 @@ In many cases, the Jacobian matrix will be triangular, so that only
 the diagonal elements will be required for the determinant
 calculation.  Triangular Jacobians arise when each element `v[k]`
 of the transformed parameter vector only depends on elements
-`u[1]`, \ldots, `u[k]` of the parameter vector.  For
+`u[1]`, &hellip;, `u[k]` of the parameter vector.  For
 triangular matrices, the determinant is the product of the diagonal
 elements, so the transformed parameters block of the above model can
 be simplified and made more efficient by recoding as follows.

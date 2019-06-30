@@ -215,7 +215,7 @@ in what follows.
 
 The observed data consists of a sequence of $M$ documents made up of
 bags of words drawn from a vocabulary of $V$ distinct words.  A
-document $m$ has $N_m$ words, which are indexed as $w_{m,1}, \ldots,
+document $m$ has $N_m$ words, which are indexed as $w_{m,1}, \dotsc,
 w_{m,N[m]} \in \{1,\dotsc,V\}$.  Despite the ordered indexing of words in a
 document, this order is not part of the model, which is clearly
 defective for natural human language data.  A number of topics (or
@@ -347,7 +347,7 @@ calculation.  This is done for naive Bayes as for other mixture
 models.  The parameters are the same up to the priors, but the
 likelihood is now computed as the marginal document probability
 \begin{align*}
-\log\, &p(w_{m,1},\ldots,w_{m,N_m} \mid \theta,\phi) \\
+\log\, &p(w_{m,1},\dotsc,w_{m,N_m} \mid \theta,\phi) \\
  &= \log \sum_{k=1}^K
     \left( \mathsf{categorical}(k \mid \theta)
            \times \prod_{n=1}^{N_m} \mathsf{categorical}(w_{m,n} \mid \phi_k)

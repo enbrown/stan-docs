@@ -111,9 +111,9 @@ and $\beta_{k'}$ can covary without changing the predictions, so that
 for any $d \neq 0$,
 
 $$
-p(y \mid \ldots, \beta_k, \ldots, \beta_{k'}, \ldots, \sigma)
+p(y \mid \ldots, \beta_k, \dotsc, \beta_{k'}, \dotsc, \sigma)
 =
-p(y \mid \ldots, d  \beta_k, \ldots, \frac{d}{c} \, \beta_{k'}, \ldots,
+p(y \mid \ldots, d  \beta_k, \dotsc, \frac{d}{c} \, \beta_{k'}, \dotsc,
 \sigma).
 $$
 
