@@ -177,7 +177,7 @@ the strength of the prior mean measured in number of prior observations.
 ### Transforming Unconstrained Priors: Probit and Logit {-}
 
 If the variable $u$ has a $\mathsf{uniform}(0, 1)$ distribution, then
-$\mbox{logit}(u)$ is distributed as $\mathsf{logistic}(0, 1)$.  This
+$\operatorname{logit}(u)$ is distributed as $\mathsf{logistic}(0, 1)$.  This
 is because inverse logit is the cumulative distribution function (cdf)
 for the logistic distribution, so that the logit function itself is
 the inverse cdf and thus maps a uniform draw in $(0, 1)$ to a
@@ -280,7 +280,7 @@ desired, the number of parameters can be reduced back to $K$ using a
 vectorized normal distribution as follows.
 
 ```
-  theta_raw ~ normal(mu, sigma);
+theta_raw ~ normal(mu, sigma);
 ```
 
 where either or both of `mu` and `sigma` can be vectors.
@@ -306,17 +306,14 @@ In the case of log normals, if $y$'s logarithm is normal with mean
 $\mu$ and deviation $\sigma$, then the distribution of $y$ is given by
 $$
 p(y)
-\ = \
-\mathsf{normal}(\log y \mid \mu, \sigma) \  \left| \frac{d}{dy} \log y \right|
-\ = \
-\mathsf{normal}(\log y \mid \mu, \sigma) \frac{1}{y}.
+= \mathsf{normal}(\log y \mid \mu, \sigma) \, \left| \frac{d}{dy} \log y \right|
+= \mathsf{normal}(\log y \mid \mu, \sigma) \, \frac{1}{y}.
 $$
 Stan works on the log scale to prevent underflow, where
 $$
 \log p(y)
 =
-\log \mathsf{normal}(\log y \mid \mu, \sigma)
-- \log y.
+\log \mathsf{normal}(\log y \mid \mu, \sigma) - \log y.
 $$
 
 In Stan, the change of variables can be applied in the sampling
@@ -421,12 +418,9 @@ transform, which in this case is
 
 $$
 \log \left| \frac{d}{du} \left( \frac{1}{u} \right) \right|
-\ = \
-\log | - u^{-2} |
-\ = \
-\log u^{-2}
-\ = \
- -2 \log u.
+= \log \left| - u^{-2} \right|
+= \log u^{-2}
+=  -2 \log u.
 $$
 
 
@@ -509,8 +503,8 @@ The Jacobian for adding a constant is one, so its log drops out of the
 log density.
 
 Even if the lower bound is a parameter rather than data, there is no
-Jacobian required, because the transform from $(L, \alpha_{\mathrm
-  raw})$ to $(L + \alpha_{\mathrm raw}, \alpha_{\mathrm raw}$ produces
+Jacobian required, because the transform from $(L, \alpha_{\mathrm{raw}})$
+to $(L + \alpha_{\mathrm{raw}}, \alpha_{\mathrm{raw}})$ produces
 a Jacobian derivative matrix with a unit determinant.
 
 It's also possible implement the transform by directly transforming
