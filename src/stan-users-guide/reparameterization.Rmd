@@ -176,18 +176,18 @@ the strength of the prior mean measured in number of prior observations.
 
 ### Transforming Unconstrained Priors: Probit and Logit {-}
 
-If the variable $u$ has a $\mathsf{Uniform}(0, 1)$ distribution, then
-$\mbox{logit}(u)$ is distributed as $\mathsf{Logistic}(0, 1)$.  This
+If the variable $u$ has a $\mathsf{uniform}(0, 1)$ distribution, then
+$\mbox{logit}(u)$ is distributed as $\mathsf{logistic}(0, 1)$.  This
 is because inverse logit is the cumulative distribution function (cdf)
 for the logistic distribution, so that the logit function itself is
 the inverse cdf and thus maps a uniform draw in $(0, 1)$ to a
 logistically-distributed quantity.
 
 Things work the same way for the probit case: if $u$ has a
-$\mathsf{Uniform}(0, 1)$ distribution, then $\Phi^{-1}(u)$ has a
+$\mathsf{uniform}(0, 1)$ distribution, then $\Phi^{-1}(u)$ has a
 $\mathsf{normal}(0, 1)$ distribution.  The other way around, if $v$
 has a $\mathsf{normal}(0, 1)$ distribution, then $\Phi(v)$ has a
-$\mathsf{Uniform}(0, 1)$ distribution.
+$\mathsf{uniform}(0, 1)$ distribution.
 
 In order to use the probit and logistic as priors on variables
 constrained to $(0, 1)$, create an unconstrained variable and
@@ -307,15 +307,15 @@ $\mu$ and deviation $\sigma$, then the distribution of $y$ is given by
 $$
 p(y)
 \ = \
-\mathsf{normal}(\log y| \mu, \sigma) \  \left| \frac{d}{dy} \log y \right|
+\mathsf{normal}(\log y \mid \mu, \sigma) \  \left| \frac{d}{dy} \log y \right|
 \ = \
-\mathsf{normal}(\log y| \mu, \sigma) \frac{1}{y}.
+\mathsf{normal}(\log y \mid \mu, \sigma) \frac{1}{y}.
 $$
 Stan works on the log scale to prevent underflow, where
 $$
 \log p(y)
 =
-\log \mathsf{normal}(\log y| \mu, \sigma)
+\log \mathsf{normal}(\log y \mid \mu, \sigma)
 - \log y.
 $$
 

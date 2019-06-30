@@ -15,7 +15,7 @@ density integrate to 1.  If $\alpha \in \mathbb{R}$ and $\beta \in \mathbb{R}$
 are the bounds, with $\alpha < \beta$, then $y \in (\alpha,\beta)$ has
 a density defined as follows.
 $$
-\mathsf{Triangle}(y | \alpha,\beta)
+\mathsf{triangle}(y \mid \alpha,\beta)
 =
 \frac{2}{\beta - \alpha}
 \
@@ -29,10 +29,10 @@ $$
 
 If $\alpha = -1$, $\beta = 1$, and $y \in (-1,1)$, this reduces to
 $$
-\mathsf{Triangle}(y|-1,1) = 1 - |y|.
+\mathsf{triangle}(y \mid -1,1) = 1 - |y|.
 $$
 Consider the following Stan implementation of
-$\mathsf{Triangle}(-1,1)$ for sampling.
+$\mathsf{triangle}(-1,1)$ for sampling.
 
 
 ```
@@ -47,7 +47,7 @@ model {
 The single scalar parameter `y` is declared as lying in the
 interval `(-1,1)`.  The total log probability is
 incremented with the joint log probability of all parameters, i.e.,
-$\log \mathsf{Triangle}(y|-1,1)$.  This value is coded in Stan as
+$\log \mathsf{triangle}(y \mid-1,1)$.  This value is coded in Stan as
 `log1m(fabs(y))`.  The function `log1m` is is defined so
 that `log1m(x)` has the same value as `log(1.0-x)`, but the
 computation is faster, more accurate, and more stable.

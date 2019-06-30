@@ -85,16 +85,16 @@ Hessian, the matrix of second derivatives of the log density $\log
 p(\theta)$ with respect to the parameter vector $\theta$, defined
 as
 $$
-H(\theta) = \nabla \, \nabla \, \log p(\theta | y),
+H(\theta) = \nabla \, \nabla \, \log p(\theta \mid y),
 $$
 so that
 $$
-H_{i, j}(\theta) = \frac{\partial^2 \log p(\theta | y)}
+H_{i, j}(\theta) = \frac{\partial^2 \log p(\theta \mid y)}
                 {\partial \theta_i \ \partial \theta_j}.
 $$
 For pure penalized maximum likelihood problems, the posterior log
-density $\log p(\theta | y)$ is replaced by the penalized likelihood
-function $\mathcal{L}(\theta) = \log p(y | \theta) - \lambda(\theta)$.
+density $\log p(\theta \mid y)$ is replaced by the penalized likelihood
+function $\mathcal{L}(\theta) = \log p(y \mid \theta) - \lambda(\theta)$.
 
 ### Condition Number and Adaptation {-}
 
@@ -254,8 +254,8 @@ sampling straightforward.  Neal's example has support for $y \in
 \mathbb{R}$ and $x \in \mathbb{R}^9$ with density
 
 $$
-p(y,x) = \mathsf{normal}(y|0,3) * \prod_{n=1}^9
-\mathsf{normal}(x_n|0,\exp(y/2)).
+p(y,x) = \mathsf{normal}(y \mid 0,3) \times \prod_{n=1}^9
+\mathsf{normal}(x_n \mid 0,\exp(y/2)).
 $$
 
 The probability contours are shaped like ten-dimensional funnels.  The
@@ -291,7 +291,7 @@ be too large for the neck and a step size that works in the neck will be
 plots are restricted to the shown window of $x_1$ and $y$ values; some
 draws fell outside of the displayed area as would be expected given
 the density.  The samples are consistent with the marginal density
-$p(y) = \mathsf{normal}(y|0,3)$, which has mean 0 and standard
+$p(y) = \mathsf{normal}(y \mid 0,3)$, which has mean 0 and standard
 deviation 3.
 
 ![](img/funnel-fit.png)
@@ -359,7 +359,7 @@ $$
 F^{-1}_X(y) = \mu + \tau \tan \left( \pi \left( y - \frac{1}{2} \right) \right).
 $$
 Thus if the random variable $Y$ has a unit uniform distribution, $Y
-\sim \mathsf{Uniform}(0,1)$, then $F^{-1}_X(Y)$ has a Cauchy
+\sim \mathsf{uniform}(0,1)$, then $F^{-1}_X(Y)$ has a Cauchy
 distribution with location $\mu$ and scale $\tau$, i.e., $F^{-1}_X(Y) \sim
 \mathsf{Cauchy}(\mu,\tau)$.
 
@@ -406,7 +406,7 @@ sampler's output.
 The uniform distribution on `beta_unif` is defined explicitly in
 the model block, but it could be safely removed from the program
 without changing sampling behavior.  This is because $\log
-\mathsf{Uniform}(\beta_{\mathrm{unif}}|-\pi/2,\pi/2) =
+\mathsf{uniform}(\beta_{\mathsf{unif}} \mid -\pi/2,\pi/2) =
 -\log \pi$ is a constant and Stan only
 needs the total log probability up to an additive constant.  Stan will spend
 some time checking that that `beta_unif` is between
@@ -438,13 +438,13 @@ Because $\tau$ is precision, $\tau^{-\frac{1}{2}}$ is the scale
 The marginal distribution of $\beta$ when you integrate out $\tau$ is
 $\mathsf{Student-t}(\nu, 0, 1)$, i.e.,
 $$
-\mathsf{Student-t}(\beta | \nu, 0, 1).
+\mathsf{Student-t}(\beta \mid \nu, 0, 1)
 =
 \int_0^{\infty}
 \,
-\mathsf{normal}(\beta | 0, \tau^{-0.5})
-*
-\mathsf{Gamma}(\tau | \nu/2, \nu/2)
+\mathsf{normal}(\beta \mid 0, \tau^{-0.5})
+\times
+\mathsf{Gamma}(\tau \mid \nu/2, \nu/2)
 \
 \mathrm{d} \tau.
 $$
@@ -539,7 +539,7 @@ Although not shown, a full model will have priors on both
 these coefficients.  For instance, a standard binary logistic
 regression with data matrix `x` and binary outcome vector
 `y` would include a likelihood statement such as form
-`y ~ bernoulli_logit(x * beta)`, leading to an analytically
+`y ~ bernoulli_logit(x \times beta)`, leading to an analytically
 intractable posterior.
 
 A hierarchical model such as the above will suffer from the same kind
@@ -799,7 +799,7 @@ If $W$ is distributed Wishart with scale matrix $S$ and degrees of
 freedom $\nu$, then $W^{-1}$ is distributed inverse Wishart with inverse
 scale matrix $S^{-1}$ and degrees of freedom $\nu$. Thus, the previous
 result can be used to reparameterize the inverse Wishart distribution.
-Since $W = L * A * A^{\top} * L^{\top}$,
+Since $W = L \times A \times A^{\top} \times L^{\top}$,
 $W^{-1} = L^{{\top}^{-1}} A^{{\top}^{-1}} A^{-1} L^{-1}$, where all four
 inverses exist, but
 $L^{{-1}^{\top}} = L^{{\top}^{-1}}$ and $A^{{-1}^{\top}} = A^{{\top}^{-1}}$.
@@ -986,7 +986,7 @@ Although it produces equivalent results, the dot product should not be
 replaced with a transpose and multiply, as in
 
 ```
-        y[n] ~ normal(x[n]' * beta, 1);
+y[n] ~ normal(x[n]' * beta, 1);
 ```
 
 The relative inefficiency of the transpose and multiply approach is
@@ -1111,6 +1111,7 @@ vectorize all at once.
   for (n in 1:N)
     mu_ii[n] = mu[ii[n]];
   y ~ normal(mu_ii, sigma);
+}
 ```
 
 If there aren't many levels (values `ii[n]` can take), then it
@@ -1120,9 +1121,9 @@ And because Stan doesn't support ragged arrays, it means K
 declarations.  For instance, with 5 levels, we have
 
 ```
-  y_1 ~ normal(mu[1], sigma);
-  ...
-  y_5 ~ normal(mu[5], sigma);
+y_1 ~ normal(mu[1], sigma);
+...
+y_5 ~ normal(mu[5], sigma);
 ```
 
 This way, both the `mu` and `sigma` parameters are shared.
@@ -1161,8 +1162,8 @@ sufficient statistic for the chance of success `theta`.  The
 model may be recoded using the binomial distribution as follows.
 
 ```
-    theta ~ beta(alpha, beta);
-    sum(y) ~ binomial(N, theta);
+theta ~ beta(alpha, beta);
+sum(y) ~ binomial(N, theta);
 ```
 
 Because truth is represented as one and falsehood as zero, the sum
@@ -1183,7 +1184,7 @@ for (k in 1:K)
 
 where the ellipses are the parameters of the log probability mass
 function for distribution `foo` (there's no distribution called
-``foo"; this is just a placeholder for any discrete distribution
+"foo"; this is just a placeholder for any discrete distribution
 name).
 
 The resulting program looks like a "weighted" regression, but here
@@ -1222,7 +1223,7 @@ beta prior and binomial sampling distribution allow the model to be
 further optimized to the following equivalent form.
 
 ```
-    theta ~ beta(alpha + sum(y), beta + N - sum(y));
+theta ~ beta(alpha + sum(y), beta + N - sum(y));
 ```
 
 To make the model even more efficient, a transformed data variable
@@ -1336,7 +1337,7 @@ model {
 ```
 
 The parameters are renamed to indicate that they aren't the
-``natural" parameters, but the model is otherwise identical.  In
+"natural" parameters, but the model is otherwise identical.  In
 particular, the fairly diffuse priors on the coefficients and error
 scale are the same.  These could have been transformed as well, but
 here they are left as is, because the scales make sense as 
@@ -1448,7 +1449,7 @@ calculated once and stored as transformed data.  Furthermore, the
 model sampling statement can be easily vectorized, for instance, in
 the transformed model, to
 ```
-    y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);
+y_std ~ normal(alpha_std + beta_std * x_std, sigma_std);
 ```
 
 ### Standard Normal Distribution {-}

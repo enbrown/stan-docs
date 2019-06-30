@@ -33,7 +33,7 @@ For each outcome $y_n$ there is a latent variable $z_n$ in
 $\{ 1,\dotsc,K \}$ with a categorical distribution parameterized
 by $\lambda$,
 $$
-z_n \sim \mathsf{Categorical}(\lambda).
+z_n \sim \mathsf{categorical}(\lambda).
 $$
 
 The variable $y_n$ is distributed according to the parameters
@@ -366,7 +366,7 @@ p(\tilde{y} \mid y)
 =
 \int_{\theta}
 p(\tilde{y} \mid \theta)
-\, p(\theta | y)
+\, p(\theta \mid y)
 \, \mathsf{d}\theta.
 $$
 
@@ -374,7 +374,7 @@ The normal mixture example from the previous section, with $\theta =
 (\mu, \sigma, \lambda)$, shows that the likelihood returns the same
 density under label switching and thus the predictive inference is
 sound.  In Stan, that predictive inference can be done either by
-computing $p(\tilde{y} \, | \, y)$, which is more efficient
+computing $p(\tilde{y} \mid y)$, which is more efficient
 statistically in terms of effective sample size, or simulating draws
 of $\tilde{y}$, which is easier to plug into other inferences.  Both
 approaches can be coded directly in the generated quantities block of
@@ -496,7 +496,7 @@ on the linear scale; it is defined to be equal to `log(exp(lp1) + exp(lp2))`, bu
 
 The code given above to compute the zero-inflated Poisson
 redundantly calculates all of the Bernoulli terms and also
-`poisson_lpmf(0 | lambda)` every time the first condition
+`poisson_lpmf(0 \mid lambda)` every time the first condition
 body executes.  The use of the redundant terms is conditioned on
 `y`, which is known when the data are read in.  This allows
 the transformed data block to be used to compute some more convenient

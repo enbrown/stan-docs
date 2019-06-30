@@ -88,9 +88,9 @@ real dbl_sqrt(real x) {
 
 The negation of the positive test is important, because it also
 catches the case where `x` is a not-a-number value.  If the
-condition had been coded as `(x~<~0)` it would not catch the
+condition had been coded as `(x < 0)` it would not catch the
 not-a-number case, though it could be written as
-`(x~<~0~||~is_nan(x))`.  The positive infinite case is allowed
+`(x < 0 || is_nan(x))`.  The positive infinite case is allowed
 through, but could also be checked with the `is_inf(x)` function.
 The square root function does not itself reject, but some downstream
 consumer of `dbl_sqrt(-2)` would be likely to raise an error, at
@@ -588,7 +588,7 @@ To generate random numbers, it is often sufficient to invert their
 cumulative distribution functions.  This is built into many of the
 random number generators.  For example, to generate a standard
 logistic variate, first generate a uniform variate
-$u \sim \mathsf{Uniform}(0, 1)$, then run through the inverse
+$u \sim \mathsf{uniform}(0, 1)$, then run through the inverse
 cumulative distribution function, $y = \mathrm{logit}(u)$.  If this
 were not already built in as `logistic_rng(0, 1)`, it could be
 coded in Stan directly as
@@ -617,7 +617,7 @@ In order to generate non-standard variates of the location-scale
 variety, the variate is scaled by the scale parameter and shifted by
 the location parameter.  For example, to generate
 $\mathsf{normal}(\mu, \sigma)$ variates, it is enough to generate a
-uniform variate $u \sim \mathsf{Uniform}(0, 1)$, then convert to a
+uniform variate $u \sim \mathsf{uniform}(0, 1)$, then convert to a
 standard normal variate, $z = \Phi(u)$, where
 $\Phi$ is the inverse cumulative distribution function for the
 standard normal, and then finally, scale and translate, $y = \mu +

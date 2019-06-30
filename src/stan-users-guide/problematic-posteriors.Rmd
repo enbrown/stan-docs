@@ -36,9 +36,9 @@ For any constant $q$, the sampling density for $y$ does not change if
 we add $q$ to $\lambda_1$ and subtract it from $\lambda_2$, i.e.,
 
 $$
-p(y | \lambda_1, \lambda_2,\sigma)
+p(y \mid \lambda_1, \lambda_2,\sigma)
 =
-p(y | \lambda_1 + q, \lambda_2 - q, \sigma).
+p(y \mid \lambda_1 + q, \lambda_2 - q, \sigma).
 $$
 
 The consequence is that an improper uniform prior $p(\mu,\sigma)
@@ -50,8 +50,8 @@ and $\lambda_2=-1000000000$ as it does in the neighborhood of
 $\lambda_1=0$ and $\lambda_2=0$, and so on for ever more far-ranging
 values.
 
-The marginal posterior $p(\lambda_1,\lambda_2|y)$ for this model is
-thus improper.^[The marginal posterior $p(\sigma|y)$ for $\sigma$ is proper here as long as there are at least two distinct data points.]
+The marginal posterior $p(\lambda_1,\lambda_2 \mid y)$ for this model is
+thus improper.^[The marginal posterior $p(\sigma \mid y)$ for $\sigma$ is proper here as long as there are at least two distinct data points.]
 
 The impropriety shows up visually as a ridge in the posterior density,
 as illustrated in the left-hand plot.  The ridge for this model is
@@ -85,9 +85,9 @@ constant $c$ to all the abilities and subtracting it from all the
 difficulties, i.e.,
 
 $$
-p(y | \alpha, \beta)
+p(y \mid \alpha, \beta)
 =
-p(y | \alpha + c, \beta - c).
+p(y \mid \alpha + c, \beta - c).
 $$
 
 This leads to a multivariate version of the ridge displayed by the
@@ -111,9 +111,9 @@ and $\beta_{k'}$ can covary without changing the predictions, so that
 for any $d \neq 0$,
 
 $$
-p(y | \ldots, \beta_k, \ldots, \beta_{k'}, \ldots, \sigma)
+p(y \mid \ldots, \beta_k, \ldots, \beta_{k'}, \ldots, \sigma)
 =
-p(y | \ldots, d  \beta_k, \ldots, \frac{d}{c} \, \beta_{k'}, \ldots,
+p(y \mid \ldots, d  \beta_k, \ldots, \frac{d}{c} \, \beta_{k'}, \ldots,
 \sigma).
 $$
 
@@ -132,8 +132,8 @@ $$
 For any constant $c \neq 0$, multiplying $\delta$ by $c$ and dividing
 $\alpha$ and $\beta$ by $c$ produces the same likelihood,
 $$
-p(y|\delta,\alpha,\beta)
-= p(y|c \delta, \, \frac{1}{c}\alpha, \, \frac{1}{c}\beta).
+p(y \mid \delta,\alpha,\beta)
+= p(y \mid c \delta, \, \frac{1}{c}\alpha, \, \frac{1}{c}\beta).
 $$
 If $c < 0$, this switches the signs of every component in $\alpha$,
 $\beta$, and $\delta$ without changing the density.
@@ -236,8 +236,8 @@ $$
 $$
 with a constant scale $\tau$, ensure that the posterior mode is
 located at a point where $\lambda_1 = \lambda_2$, because this
-minimizes $\log \mathsf{normal}(\lambda_1|0,\tau) + \log
-\mathsf{normal}(\lambda_2|0,\tau)$.^[A Laplace prior (or an L1 regularizer for penalized maximum likelihood estimation) is not sufficient to remove this additive invariance.  It provides shrinkage, but does not in and of itself identify the parameters because adding a constant to $\lambda_1$ and subtracting it from $\lambda_2$ results in the same value for the prior density.]
+minimizes $\log \mathsf{normal}(\lambda_1 \mid 0,\tau) + \log
+\mathsf{normal}(\lambda_2 \mid 0,\tau)$.^[A Laplace prior (or an L1 regularizer for penalized maximum likelihood estimation) is not sufficient to remove this additive invariance.  It provides shrinkage, but does not in and of itself identify the parameters because adding a constant to $\lambda_1$ and subtracting it from $\lambda_2$ results in the same value for the prior density.]
 
 The following plots show the posteriors for two intercept
 parameterization without prior, two intercept parameterization with
@@ -318,13 +318,13 @@ Consider a normal mixture model with two location parameters $\mu_1$
 and $\mu_2$, a shared scale $\sigma > 0$, a mixture ratio $\theta \in
 [0,1]$, and likelihood
 $$
-p(y|\theta,\mu_1,\mu_2,\sigma)
-= \prod_{n=1}^N \big( \theta \, \mathsf{normal}(y_n|\mu_1,\sigma)
-                       + (1 - \theta) \, \mathsf{normal}(y_n|\mu_2,\sigma) \big).
+p(y \mid \theta,\mu_1,\mu_2,\sigma)
+= \prod_{n=1}^N \big( \theta \, \mathsf{normal}(y_n \mid \mu_1,\sigma)
+                       + (1 - \theta) \, \mathsf{normal}(y_n \mid \mu_2,\sigma) \big).
 $$
 The issue here is exchangeability of the mixture components, because
 $$
-p(\theta,\mu_1,\mu_2,\sigma|y) = p((1-\theta),\mu_2,\mu_1,\sigma|y).
+p(\theta,\mu_1,\mu_2,\sigma \mid y) = p((1-\theta),\mu_2,\mu_1,\sigma \mid y).
 $$
 The problem is exacerbated as the number of mixture components $K$
 grows, as in clustering models, leading to $K!$ identical posterior
@@ -456,7 +456,7 @@ around a single data item $y_n$.
 ### Beta-Binomial Models with Skewed Data and Weak Priors {-}
 
 Another example of unbounded densities arises with a posterior such as
-$\mathsf{Beta}(\phi|0.5,0.5)$, which can arise if seemingly weak beta
+$\mathsf{beta}(\phi \mid 0.5,0.5)$, which can arise if seemingly weak beta
 priors are used for groups that have no data. This density is
 unbounded as $\phi \rightarrow 0$ and $\phi \rightarrow 1$. Similarly,
 a Bernoulli likelihood model coupled with a "weak" beta prior, leads
@@ -464,17 +464,17 @@ to a posterior
 
 $$
 \begin{array}{rcl}
-p(\phi|y)
+p(\phi \mid y)
 & \propto & \textstyle
-\mathsf{Beta}(\phi|0.5,0.5) * \prod_{n=1}^N \mathsf{Bernoulli}(y_n|\phi)
+\mathsf{beta}(\phi \mid 0.5,0.5) \times \prod_{n=1}^N \mathsf{Bernoulli}(y_n \mid \phi)
 \\[4pt]
 & = &\textstyle
-\mathsf{Beta}(\phi \, | \, 0.5 + \sum_{n=1}^N y_n, \ \ 0.5 + N - \sum_{n=1}^N y_n).
+\mathsf{beta}(\phi \mid 0.5 + \sum_{n=1}^N y_n, \ \ 0.5 + N - \sum_{n=1}^N y_n).
 \end{array}
 $$
 
 If $N = 9$ and each $y_n = 1$, the posterior is
-$\mathsf{Beta}(\phi|9.5,0,5)$.  This posterior is unbounded as $\phi
+$\mathsf{beta}(\phi \mid 9.5,0,5)$.  This posterior is unbounded as $\phi
 \rightarrow 1$.  Nevertheless, the posterior is proper, and although
 there is no posterior mode, the posterior mean is well-defined with a
 value of exactly 0.95.
@@ -522,7 +522,7 @@ y_n \sim \mathsf{Bernoulli}(\mbox{logit}^{-1}(x_n \beta)).
 $$
 Now suppose that column $k$ of the predictor matrix is such that
 $x_{n,k} > 0$ if and only if $y_n = 1$, a condition known as
-``separability."  In this case, predictive accuracy on the observed data
+"separability."  In this case, predictive accuracy on the observed data
 continue to improve as $\beta_k \rightarrow \infty$, because for cases
 with $y_n = 1$, $x_n \beta \rightarrow \infty$ and hence
 $\mbox{logit}^{-1}(x_n \beta) \rightarrow 1$.
@@ -538,9 +538,9 @@ ensures a proper posterior.
 ## Uniform Posteriors
 
 Suppose your model includes a parameter $\psi$ that is defined on
-$[0,1]$ and is given a flat prior $\mathsf{Uniform}(\psi|0,1)$. Now if
+$[0,1]$ and is given a flat prior $\mathsf{uniform}(\psi \mid 0,1)$. Now if
 the data don't tell us anything about $\psi$, the posterior is also
-$\mathsf{Uniform}(\psi|0,1)$.
+$\mathsf{uniform}(\psi \mid 0,1)$.
 
 Although there is no maximum likelihood estimate for $\psi$, the
 posterior is uniform over a closed interval and hence proper.  In the
@@ -575,13 +575,13 @@ Gibbs sampling proceeds in iteration $m$ by drawing
 $$
 \begin{array}{rcl}
 \lambda_1^{(m)}
-& \sim & p(\lambda_1 \, | \, \lambda_2^{(m-1)}, \, \sigma^{(m-1)}, \, y)
+& \sim & p(\lambda_1 \mid \lambda_2^{(m-1)}, \, \sigma^{(m-1)}, \, y)
 \\[6pt]
 \lambda_2^{(m)}
-& \sim & p(\lambda_2 \, | \, \lambda_1^{(m)}, \, \sigma^{(m-1)}, \, y)
+& \sim & p(\lambda_2 \mid \lambda_1^{(m)}, \, \sigma^{(m-1)}, \, y)
 \\[6pt]
 \sigma^{(m)}
-& \sim & p(\sigma \, | \, \lambda_1^{(m)}, \, \lambda_2^{(m)}, \, y).
+& \sim & p(\sigma \mid \lambda_1^{(m)}, \, \lambda_2^{(m)}, \, y).
 \end{array}
 $$
 

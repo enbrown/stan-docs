@@ -624,7 +624,7 @@ This Markov chain is parameterized by a transition matrix $\theta$
 where $\theta_k$ is a $K$-simplex for $k \in \{ 1, \dotsc, K \}$.  The
 probability of transitioning to state $z_t$ from state $z_{t-1}$ is
 $$
-z_t \sim \mathsf{Categorical}(\theta_{z[t-1]}).
+z_t \sim \mathsf{categorical}(\theta_{z[t-1]}).
 $$
 The output $y_t$ at time $t$ is generated conditionally independently
 based on the latent state $z_t$.
@@ -635,7 +635,7 @@ latent state $k$ is parameterized by a $V$-simplex $\phi_k$.  The
 observed output $y_t$ at time $t$ is generated based on the hidden
 state indicator $z_t$ at time $t$,
 $$
-y_t \sim \mathsf{Categorical}(\phi_{z[t]}).
+y_t \sim \mathsf{categorical}(\phi_{z[t]}).
 $$
 In short, HMMs form a discrete mixture model where the mixture
 component indicators form a latent Markov chain.

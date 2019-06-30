@@ -49,9 +49,9 @@ $y_1,\ldots,y_N \in \mathbb{R}$.  The defining feature of Gaussian
 processes is that the probability of a finite number of outputs $y$
 conditioned on their inputs $x$ is Gaussian:
 $$
-y \sim \mathsf{multivariate\ normal}(m(x), K(x | \theta)),
+y \sim \mathsf{multivariate\ normal}(m(x), K(x \mid \theta)),
 $$
-where $m(x)$ is an $N$-vector and $K(x | \theta)$ is an $N \times N$
+where $m(x)$ is an $N$-vector and $K(x \mid \theta)$ is an $N \times N$
 covariance matrix.  The mean function $m : \mathbb{R}^{N \times D}
 \rightarrow \mathbb{R}^{N}$ can be anything, but the covariance function
 $K : \mathbb{R}^{N \times D} \rightarrow \mathbb{R}^{N \times N}$ must produce
@@ -60,7 +60,7 @@ a positive-definite matrix for any input $x$.^[Gaussian processes can be extende
 A popular covariance function, which will be used in the implementations later
 in this chapter, is an exponentiated quadratic function,
 $$
-  K(x | \alpha, \rho, \sigma)_{i, j}
+  K(x \mid \alpha, \rho, \sigma)_{i, j}
 = \alpha^2
 \exp \left(
 - \dfrac{1}{2 \rho^2} \sum_{d=1}^D (x_{i,d} - x_{j,d})^2
@@ -74,7 +74,7 @@ test is between the indexes $i$ and $j$, not between values $x_i$ and
 $x_j$. This kernel is obtained through a convolution of two
 independent Gaussian processes, $f_1$ and $f_2$, with kernels
 $$
-  K_1(x | \alpha, \rho)_{i, j}
+  K_1(x \mid \alpha, \rho)_{i, j}
 = \alpha^2
 \exp \left(
 - \dfrac{1}{2 \rho^2} \sum_{d=1}^D (x_{i,d} - x_{j,d})^2
@@ -82,7 +82,7 @@ $$
 $$
 and
 $$
-  K_2(x | \sigma)_{i, j}
+  K_2(x \mid \sigma)_{i, j}
 =
  \delta_{i, j} \sigma^2,
 $$
@@ -107,7 +107,7 @@ the inputs $x_i$ and $x_j$ is their vector difference, $x_i - x_j$.
 This produces a process with stationary covariance in the sense that
 if an input vector $x$ is translated by a vector $\epsilon$ to $x +
 \epsilon$, the covariance at any pair of outputs is unchanged, because
-$K(x | \theta) = K(x + \epsilon| \theta)$.
+$K(x \mid \theta) = K(x + \epsilon \mid \theta)$.
 
 The summation involved is just the squared Euclidean distance between
 $x_i$ and $x_j$ (i.e., the $L_2$ norm of their difference, $x_i -
@@ -223,11 +223,11 @@ $$
 $$
 where ${\bf 0}$ is an $N$-vector of 0 values and ${\bf 1}$ is the $N
 \times N$ identity matrix.  Let $L$ be the Cholesky decomposition of
-$K(x | \theta)$, i.e., the lower-triangular matrix $L$ such that $LL^{\top} =
-K(x | \theta)$.  Then the transformed variable $\mu + L\eta$ has the intended
+$K(x \mid \theta)$, i.e., the lower-triangular matrix $L$ such that $LL^{\top} =
+K(x \mid \theta)$.  Then the transformed variable $\mu + L\eta$ has the intended
 target distribution,
 $$
-  \mu + L\eta \sim \mathsf{multivariate\ normal}(\mu(x), K(x | \theta)).
+  \mu + L\eta \sim \mathsf{multivariate\ normal}(\mu(x), K(x \mid \theta)).
 $$
 
 This transform can be applied directly to Gaussian process
@@ -278,7 +278,7 @@ $$ \begin{aligned}
   \rho & \sim \mathsf{InvGamma}(5, 5) \\
   \alpha & \sim \mathsf{normal}(0, 1) \\
   \sigma & \sim \mathsf{normal}(0, 1) \\
-  f & \sim \mathsf{multivariate\ normal}\left(0, K(x | \alpha, \rho)\right) \\
+  f & \sim \mathsf{multivariate\ normal}\left(0, K(x \mid \alpha, \rho)\right) \\
   y_i & \sim \mathsf{normal}(f_i, \sigma) \, \forall i \in \{1, \dots, N\}
 \end{aligned} $$
 
@@ -290,7 +290,7 @@ $$ \begin{aligned}
   \alpha & \sim \mathsf{normal}(0, 1) \\
   \sigma & \sim \mathsf{normal}(0, 1) \\
   y & \sim \mathsf{multivariate\ normal}
-  \left(0, K(x | \alpha, \rho) + \mathbf{I}_N \sigma^2\right) \\
+  \left(0, K(x \mid \alpha, \rho) + \mathbf{I}_N \sigma^2\right) \\
 \end{aligned} $$
 
 It can be more computationally efficient when dealing with a normal
@@ -511,7 +511,7 @@ If we have multivariate inputs $x \in \mathbb{R}^D$, the squared exponential
 covariance function can be further generalized by fitting a scale
 parameter $\rho_d$ for each dimension $d$,
 $$
-  k(x | \alpha, \vec{\rho}, \sigma)_{i, j} = \alpha^2 \exp
+  k(x \mid \alpha, \vec{\rho}, \sigma)_{i, j} = \alpha^2 \exp
 \left(-\dfrac{1}{2}
 \sum_{d=1}^D \dfrac{1}{\rho_d^2} (x_{i,d} - x_{j,d})^2
 \right)
@@ -621,7 +621,7 @@ dependent on how the GP is used in our statistical model.
 If our model consists of only the GP, i.e.:
 
 $$ \begin{aligned}
-  f & \sim \mathsf{multivariate\ normal}\left(0, K(x | \alpha, \rho)\right) \\
+  f & \sim \mathsf{multivariate\ normal}\left(0, K(x \mid \alpha, \rho)\right) \\
   y_i & \sim \mathsf{normal}(f_i, \sigma) \, \forall i \in \{1, \dots, N\} \\
   & x \in \mathbb{R}^{N \times D}, \, f \in \mathbb{R}^N
 \end{aligned} $$
@@ -644,7 +644,7 @@ mean and fixed effects for the same variables we're using as the domain for the
 GP, i.e.:
 
 $$ \begin{aligned}
-  f & \sim \mathsf{multivariate\ normal}\left(0, K(x | \alpha, \rho)\right) \\ y_i &
+  f & \sim \mathsf{multivariate\ normal}\left(0, K(x \mid \alpha, \rho)\right) \\ y_i &
   \sim \mathsf{normal}(\beta_0 + x_i \beta_{[1:D]} + f_i, \sigma) \, \forall i
   \in \{1, \dots, N\} \\ & x_i^T, \beta_{[1:D]} \in \mathbb{R}^D,\, x \in \mathbb{R}^{N
   \times D},\, f \in \mathbb{R}^N
@@ -661,7 +661,7 @@ to limit the GP to higher-frequency functions. We can use a generalized inverse
 Gaussian distribution:
 
 $$ \begin{aligned}
-  f(x | a, b, p) & = \dfrac{(a/b)^{p/2}}{2K_p(\sqrt{ab})} x^{p - 1}\exp(-(ax + b
+  f(x \mid a, b, p) & = \dfrac{(a/b)^{p/2}}{2K_p(\sqrt{ab})} x^{p - 1}\exp(-(ax + b
   / x)/2) \\
   & x, a, b \in \mathbb{R}^{+}, \, p \in \mathbb{Z}
 \end{aligned} $$
@@ -716,12 +716,12 @@ outputs $y$ are observed.  Given a new sequence of inputs $\tilde{x}$,
 the posterior predictive distribution of their labels is computed by
 sampling outputs $\tilde{y}$ according to
 $$
-p(\tilde{y}|\tilde{x},x,y)
+p(\tilde{y} \mid \tilde{x},x,y)
 \ = \
-\frac{p(\tilde{y}, y|\tilde{x},x)}
-     {p(y|x)}
+\frac{p(\tilde{y}, y \mid \tilde{x},x)}
+     {p(y \mid x)}
 \ \propto \
-p(\tilde{y}, y|\tilde{x},x).
+p(\tilde{y}, y \mid \tilde{x},x).
 $$
 
 A direct implementation in Stan defines a model in terms of the
@@ -866,21 +866,21 @@ from it.
 
 Jumping straight to the result,
 $$
-p(\tilde{y}|\tilde{x},y,x)
+p(\tilde{y} \mid \tilde{x},y,x)
 =
 \mathsf{normal}(K^{\top}\Sigma^{-1}y,\
                 \Omega - K^{\top}\Sigma^{-1}K),
 $$
-where $\Sigma = K(x | \alpha, \rho, \sigma)$ is the result of applying the covariance
+where $\Sigma = K(x \mid \alpha, \rho, \sigma)$ is the result of applying the covariance
 function to the inputs $x$ with observed outputs $y$, $\Omega =
-K(\tilde{x} | \alpha, \rho)$ is the result of applying the covariance function to the
+K(\tilde{x} \mid \alpha, \rho)$ is the result of applying the covariance function to the
 inputs $\tilde{x}$ for which predictions are to be inferred, and $K$
 is the matrix of covariances between inputs $x$ and $\tilde{x}$, which
 in the case of the exponentiated quadratic covariance function
 would be
 
 $$
-K(x | \alpha, \rho)_{i, j} = \eta^2 \exp(-\dfrac{1}{2 \rho^2}
+K(x \mid \alpha, \rho)_{i, j} = \eta^2 \exp(-\dfrac{1}{2 \rho^2}
 \sum_{d=1}^D (x_{i,d} - \tilde{x}_{j,d})^2).
 $$
 
@@ -985,36 +985,36 @@ Suppose we have observations $y_i \in \mathbb{R}^M$ observed at
 $x_i \in \mathbb{R}^K$. One can model the data like so:
 $$ \begin{aligned}
   y_i & \sim \mathsf{multivariate\ normal}(f(x_i), \mathbf{I}_M \sigma^2) \\
-  f(x) & \sim \mathsf{GP}(m(x), K(x | \theta, \phi)) \\
-  K(x & | \theta) \in \mathbb{R}^{M \times M}, \, f(x), \, m(x) \in \mathbb{R}^M
+  f(x) & \sim \mathsf{GP}(m(x), K(x \mid \theta, \phi)) \\
+  K(x & \mid \theta) \in \mathbb{R}^{M \times M}, \, f(x), \, m(x) \in \mathbb{R}^M
 \end{aligned} $$
-where the $K(x, x^\prime | \theta, \phi)_{[m, m^\prime]}$ entry defines the
+where the $K(x, x^\prime \mid \theta, \phi)_{[m, m^\prime]}$ entry defines the
 covariance between $f_m(x)$ and $f_{m^\prime}(x^\prime)(x)$. This construction
 of Gaussian processes allows us to learn the covariance between the output
 dimensions of $f(x)$. If we parameterize our kernel $K$:
-$$ \begin{aligned} K(x, x^\prime | \theta, \phi)_{[m, m^\prime]} = k(x, x^\prime |
-\theta) k(m, m^\prime | \phi) \end{aligned} $$
+$$ \begin{aligned} K(x, x^\prime \mid \theta, \phi)_{[m, m^\prime]} = k(x, x^\prime \mid
+\theta) k(m, m^\prime \mid \phi) \end{aligned} $$
 then our finite dimensional generative model for the above is:
 $$ \begin{aligned}
-  f & \sim \mathsf{Matrixnormalal}(m(x), K(x | \alpha, \rho), C(\phi)) \\
+  f & \sim \mathsf{matrixnormal}(m(x), K(x \mid \alpha, \rho), C(\phi)) \\
   y_{i, m} & \sim \mathsf{normal}(f_{i,m}, \sigma) \\
   f & \in \mathbb{R}^{N \times M}
 \end{aligned} $$
-where $K(x | \alpha, \rho)$ is the exponentiated quadratic kernel we've used
+where $K(x \mid \alpha, \rho)$ is the exponentiated quadratic kernel we've used
 throughout this chapter, and $C(\phi)$ is a positive-definite matrix,
 parameterized by some vector $\phi$.
 
-The matrix normal distribution has two covariance matrices: $K(x |
+The matrix normal distribution has two covariance matrices: $K(x \mid
 \alpha, \rho)$ to encode column covariance, and $C(\phi)$ to define row
 covariance. The salient features of the matrix normal are that the rows
 of the matrix $f$ are distributed:
-$$ \begin{aligned} f_{[n,]} \sim \mathsf{multivariate\ normal}(m(x)_{[n,]}, K(x | \alpha,
+$$ \begin{aligned} f_{[n,]} \sim \mathsf{multivariate\ normal}(m(x)_{[n,]}, K(x \mid \alpha,
 \rho)_{[n,n]} C(\phi)) \end{aligned} $$ and that the columns of the matrix $f$ are
 distributed: $$ \begin{aligned} f_{[,m]} \sim \mathsf{multivariate\ normal}(m(x)_{[,m]}, K(x
-  | \alpha, \rho) C(\phi)_{[m,m]}) \end{aligned} $$
+  \mid \alpha, \rho) C(\phi)_{[m,m]}) \end{aligned} $$
 This also means means that $\mathbb{E}\left[f^T f\right]$ is equal to
-$\text{trace}(K(x | \alpha, \rho)) * C$, whereas $\mathbb{E}\left[ff^T\right]$
-is $\text{trace}(C) * K(x | \alpha, \rho)$. We can derive this using
+$\text{trace}(K(x \mid \alpha, \rho)) \times C$, whereas $\mathbb{E}\left[ff^T\right]$
+is $\text{trace}(C) \times K(x \mid \alpha, \rho)$. We can derive this using
 properties of expectation and the matrix normal density.
 
 We should set $\alpha$ to $1.0$ because the parameter is not identified unless
@@ -1026,15 +1026,15 @@ $\mathbb{R}^{N \times M}$ using the following algorithm:
 
 $$ \begin{aligned}
   \eta_{i,j} & \sim \mathsf{normal}(0, 1) \, \forall i,j \\
-  f & = L_{K(x | 1.0, \rho)} \, \eta \, L_C(\phi)^T \\
-  f & \sim \mathsf{MatrixNormal}(0, K(x | 1.0, \rho), C(\phi)) \\
+  f & = L_{K(x \mid 1.0, \rho)} \, \eta \, L_C(\phi)^T \\
+  f & \sim \mathsf{matrixnormal}(0, K(x \mid 1.0, \rho), C(\phi)) \\
   \eta & \in \mathbb{R}^{N \times M} \\
   L_C(\phi) & = \text{cholesky\_decompose}(C(\phi)) \\
-  L_{K(x | 1.0, \rho)} & = \text{cholesky\_decompose}(K(x | 1.0, \rho))
+  L_{K(x \mid 1.0, \rho)} & = \text{cholesky\_decompose}(K(x \mid 1.0, \rho))
 \end{aligned} $$
 
 This can be implemented in Stan using a latent-variable GP formulation. We've used
-$\mathsf{LkjCorr}$ for $C(\phi)$, but any positive-definite matrix will do.
+$\mathsf{LKJCorr}$ for $C(\phi)$, but any positive-definite matrix will do.
 
 
 ```

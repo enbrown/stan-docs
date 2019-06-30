@@ -11,7 +11,7 @@ distributed noise.  This model can be written using standard
 regression notation as
 $$
 y_n = \alpha + \beta x_n + \epsilon_n
-\quad\mathsf{where}\quad
+\quad\text{where}\quad
 \epsilon_n \sim \operatorname{normal}(0,\sigma).
 $$
 
@@ -1190,7 +1190,7 @@ varying by group, so that $\beta_j$ is the coefficient $K$-vector for
 group $j$.  The likelihood function for individual $n$ is then just
 $$
 y_n \sim \mathsf{normal}(x_n \, \beta_{jj[n]}, \, \sigma)
-\quad\mathsf{for}\quad n \in \{ 1, \dotsc, N \}.
+\quad\text{for}\quad n \in \{ 1, \dotsc, N \}.
 $$
 
 
@@ -1201,7 +1201,7 @@ from a multivariate distribution with mean vector $\mu$ and
 covariance matrix $\Sigma$,
 $$
 \beta_j \sim \mathsf{multivariate\ normal}(\mu, \, \Sigma)
-\quad\mathsf{for}\quad j \in \{ 1, \dotsc, J \}.
+\quad\text{for}\quad j \in \{ 1, \dotsc, J \}.
 $$
 
 Below, we discuss the full model of Gelman and Hill, which uses
@@ -1248,8 +1248,8 @@ prior for scales, but we recommend something weakly informative like a
 half-Cauchy distribution with a small scale, such as
 $$
 \tau_k \sim \mathsf{Cauchy}(0, 2.5)
-\quad\mathsf{for}\quad k \in \{ 1, \dotsc, K \}
-\quad\mathsf{constrained\ by}\quad \tau_k > 0.
+\quad\text{for}\quad k \in \{ 1, \dotsc, K \}
+\quad\text{constrained\ by}\quad \tau_k > 0.
 $$
 As for the prior means, if there is information about the scale of
 variation of coefficients across groups, it should be incorporated
@@ -1266,7 +1266,7 @@ $$
 
 The LKJ correlation distribution is defined by
 $$
-\mathsf{LkjCorr}\left(\Sigma \mid \eta\right)
+\mathsf{LKJCorr}\left(\Sigma \mid \eta\right)
 \propto
 \operatorname{det}\left(\Sigma\right)^{\eta - 1}.
 $$
