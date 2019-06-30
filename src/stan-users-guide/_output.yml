@@ -30,6 +30,7 @@ bookdown::pdf_book:
   includes:
     in_header: header.tex
   pandoc_args: [
-    "--syntax-definition=stan.xml"
+    "--syntax-definition=stan.xml",
+    "--highlight-style=stan.theme"
   ]
-  highlight: stan.theme
+  highlight: NULL
