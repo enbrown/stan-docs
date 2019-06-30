@@ -15,7 +15,7 @@ This leaves us in the awkward situation of having three
 one-dimensional containers, as exemplified by the following
 declarations.
 
-```
+``` {.stan}
 real a[N];
 vector[N] a;
 row_vector[N] a;
@@ -32,7 +32,7 @@ produces a matrix.
 The following code fragment shows all four ways to declare a
 two-dimensional container of size $M \times N$.
 
-```
+``` {.stan}
 real b[M, N];          // b[m] : real[]     (efficient)
 vector[N] b[M];        // b[m] : vector     (efficient)
 row_vector[N] b[M];    // b[m] : row_vector (efficient)
@@ -102,7 +102,7 @@ Third, both data structures are best traversed in the order in which
 they are stored.  This also helps with memory locality.  This is
 column-major for matrices, so the following order is appropriate.
 
-```
+``` {.stan}
 matrix[M, N] a;
 //...
 for (n in 1:N)
@@ -113,7 +113,7 @@ for (n in 1:N)
 Arrays, on the other hand, should be traversed in row-major order
 (i.e., last index fastest), as in the following example.
 
-```
+``` {.stan}
 real a[M, N];
 // ...
 for (m in 1:M)
@@ -127,7 +127,7 @@ Overall, traversing matrices is more efficient than traversing arrays.
 This is true even for arrays of matrices.  For example, the ideal
 order in which to traverse a two-dimensional array of matrices is
 
-```
+``` {.stan}
 matrix[M, N] b[I, J];
 // ...
 for (i in 1:I)
@@ -142,7 +142,7 @@ If `a` is a matrix, the notation `a[m]` picks out row
 matrices.  If indexing of vectors is needed, it is much better to
 declare an array of vectors.  That is, this
 
-```
+``` {.stan}
 row_vector[N] b[M];
 // ...
 for (m in 1:M)
@@ -151,7 +151,7 @@ for (m in 1:M)
 
 is much more efficient than the pure matrix version
 
-```
+``` {.stan}
 matrix b[M, N];
 // ...
 for (m in 1:M)
@@ -165,7 +165,7 @@ In contrast, whatever can be done as pure matrix algebra will be the
 fastest.  So if I want to create a row of predictor-coefficient
 dot-products, it's more efficient to do this
 
-```
+``` {.stan}
 matrix[N, k] x;    // predictors (aka covariates)
 // ...
 vector[K] beta;   // coeffs
@@ -177,7 +177,7 @@ y_hat = x * beta;
 
 than it is to do this
 
-```
+``` {.stan}
 row_vector[K] x[N];    // predictors (aka covariates)
 // ...
 vector[K] beta;   // coeffs
@@ -224,7 +224,7 @@ $$
 This means that it's much more efficient to write loops over matrices
 column by column, as in the following example.
 
-```
+``` {.stan}
 matrix[M, N] a;
 ...
 for (n in 1:N)
@@ -239,7 +239,7 @@ stored internally as a unit in a matrix.  For sequential access to row
 vectors in a matrix, it is much better to use an array of row vectors,
 as in the following example.
 
-```
+``` {.stan}
 row_vector[N] a[M];
 ...
 for (m in 1:M)
@@ -255,7 +255,7 @@ Arrays are stored internally following their data structure.  That
 means a two dimensional array is stored in row-major order.  Thus it
 is efficient to pull out a "row" of a two-dimensional array.
 
-```
+``` {.stan}
 real a[M, N];
 ...
 for (m in 1:M)
@@ -290,7 +290,7 @@ The loop assigning to `u` and the compound slicing assigning to `x`.
 
  the following trivial Stan program.
 
-```
+``` {.stan}
 transformed data {
   vector[4] x = [ 1, 2, 3, 4 ]';
   vector[4] u = [ 1, 2, 3, 4 ]';
@@ -307,7 +307,7 @@ transformed data {
 
 The output it produces is,
 
-```
+``` {.stan}
 u = [1,3,9,27]
 x = [1,3,6,9]
 ```

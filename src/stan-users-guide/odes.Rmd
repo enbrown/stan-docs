@@ -54,7 +54,7 @@ oscillator can be coded using the following function in Stan (see the
 [user-defined functions chapter](#functions-programming.chapter) for
 more information on coding user-defined functions).
 
-```
+``` {.stan}
 real[] sho(real t,        // time
            real[] y,      // state
            real[] theta,  // parameters
@@ -100,7 +100,7 @@ concentration is going to be zero for times $0 < t < t'$ for some
 lag-time $t'$, whereas it will be nonzero for times $t \geq t'$.  As
 an example, would involve code in the system such as
 
-```
+``` {.stan}
 if (t < t_lag)
   return 0;
 else
@@ -154,7 +154,7 @@ as in the previous example code.
 In general, computing a matrix exponential will be more efficient than using a numerical
 solver. We can however only apply this technique to systems of \underline{linear} ODEs.
 
-```
+``` {.stan}
 data {
   int<lower=1> T;
   vector[2] y0;
@@ -216,7 +216,7 @@ knitr::include_graphics("img/sho-ode-trajectory.png", auto_pdf = TRUE)
 The data used to make this plot is derived from the Stan model to
 simulate noisy observations given below.
 
-```
+``` {.stan}
 functions {
   real[] sho(real t,
              real[] y,
@@ -264,7 +264,7 @@ times and then add random measurement error, producing observations
 This program illustrates the way in which the ODE solver is called in
 a Stan program,
 
-```
+``` {.stan}
 y_hat = integrate_ode_rk45(sho, y0, t0, ts, theta, x_r, x_i);
 ```
 
@@ -299,7 +299,7 @@ predictions, much like the linear predictor does in a generalized
 linear model.  These states will then be observed with measurement error.
 
 
-```
+``` {.stan}
 functions {
   real[] sho(real t,
              real[] y,
@@ -354,7 +354,7 @@ state parameter array `y0`.  The solutions to the ODE are then
 assigned to an array `y_hat`, which is then used as the location in
 the observation noise model as follows.
 
-```
+``` {.stan}
 y_hat = integrate_ode_rk45(sho, y0, t0, ts, theta, x_r, x_i);
 for (t in 1:T)
   y[t] ~ normal(y_hat[t], sigma);
@@ -385,7 +385,7 @@ specified exactly the same way with a function of exactly the same
 signature.  The only difference is in the call to the integrator for
 the solution; the `rk45` suffix is replaced with `bdf`, as in
 
-```
+``` {.stan}
 y_hat = integrate_ode_bdf(sho, y0, t0, ts, theta, x_r, x_i);
 ```
 
@@ -404,7 +404,7 @@ control settings.  Both the non-stiff and stiff integrators allow
 three additional arguments, all of which must be supplied if any of
 them is required.
 
-```
+``` {.stan}
 y_hat = integrate_ode_bdf(sho, y0, t0, ts, theta, x_r, x_i,
                           rel_tol, abs_tol, max_steps);
 ```

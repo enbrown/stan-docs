@@ -149,14 +149,14 @@ In practice, the finite amount of arithmetic precision leads to
 floating-point number.  For example, with only 16 decimal digits of
 accuracy,
 
-```
+``` {.stan}
 1 + 1e-20 == 1
 ```
 
 The closest floating point number to $1 + 10^{-20}$ turns out to be
 $1$ itself.   By contrast,
 
-```
+``` {.stan}
 0 + 1e-20 == 1e-20
 ```
 
@@ -342,7 +342,7 @@ given an absolute or relative tolerance.
 Given a positive *absolute tolerance* of `epsilon`, `x` can be compared
 to `y` using the conditional
 
-```
+``` {.stan}
 abs(x - y) <= epsilon.
 ```
 
@@ -352,6 +352,6 @@ relevant comparison is known.
 Given a positive *relative tolerance* of `epsilon`, a typical
 comparison is
 
-```
+``` {.stan}
 2 * abs(x - y) / (abs(x) + abs(y)) <= epsilon.
 ```

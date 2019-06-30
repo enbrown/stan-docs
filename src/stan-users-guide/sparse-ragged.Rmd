@@ -17,7 +17,7 @@ are $J$ students and $K$ questions, and if every student answers every
 question, then it is practical to declare the data as a $J \times K$
 array of answers.
 
-```
+``` {.stan}
 data {
   int<lower=1> J;
   int<lower=1> K;
@@ -129,7 +129,7 @@ other entries undefined.
 Letting $N$ be the number of $y$ that are defined, here $N=6$,
 the data and model can be formulated as follows.
 
-```
+``` {.stan}
 data {
   ...
   int<lower=1> N;
@@ -197,7 +197,7 @@ row.
 
 The model can then be coded up using slicing operations as follows.
 
-```
+``` {.stan}
 data {
   int<lower=0> N;   // # observations
   int<lower=0> K;   // # of groups

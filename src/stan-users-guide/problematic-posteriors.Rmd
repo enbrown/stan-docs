@@ -200,7 +200,7 @@ manual chapter on constrained parameter transforms for a precise
 definition.  The Stan code for creating a simplex from a $K-1$-vector
 can be written as
 
-```
+``` {.stan}
 vector softmax_id(vector alpha) {
   vector[num_elements(alpha) + 1] alphac1;
   for (k in 1:num_elements(alpha))
@@ -686,7 +686,7 @@ models is illustrated in the non-identifiable density plot.  The
 first model is the unidentified model with two location parameters and
 no priors discussed in the [collinearity section](#collinearity.section).
 
-```
+``` {.stan}
 data {
   int N;
   real y[N];
@@ -708,14 +708,14 @@ model {
 The second adds priors to the model block for `lambda1` and
 `lambda2` to the previous model.
 
-```
+``` {.stan}
 lambda1 ~ normal(0, 10);
 lambda2 ~ normal(0, 10);
 ```
 
 The third involves a single location parameter, but no priors.
 
-```
+``` {.stan}
 data {
   int N;
   real y[N];

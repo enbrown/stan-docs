@@ -135,7 +135,7 @@ and $\sigma^2 = 0.1$, and the mean function $m$ is defined to always
 return the zero vector, $m(x) = \mathbf{0}$.  Consider the following
 implementation of a Gaussian process simulator.
 
-```
+``` {.stan}
 data {
   int<lower=1> N;
   real x[N];
@@ -163,7 +163,7 @@ model {
 The above model can also be written more compactly using the specialized
 covariance function that implements the exponentiated quadratic kernel.
 
-```
+``` {.stan}
 data {
   int<lower=1> N;
   real x[N];
@@ -194,7 +194,7 @@ multivariate model.
 
 The only lines that change from the univariate model above are as follows.
 
-```
+``` {.stan}
 data {
   int<lower=1> N;
   int<lower=1> D;
@@ -239,7 +239,7 @@ data variable for the Cholesky decomposition.  The parameters change
 to the raw parameters sampled from an isotropic standard normal, and the
 actual samples are defined as generated quantities.
 
-```
+``` {.stan}
 ...
 transformed data {
   matrix[N, N] L;
@@ -314,7 +314,7 @@ above, but because we are doing inference on the hyperparameters, we need to
 calculate the covariance matrix `K` in the model block, rather than
 the transformed data block.
 
-```
+``` {.stan}
 data {
   int<lower=1> N;
   real x[N];
@@ -379,7 +379,7 @@ small positive term, $\delta$ to the diagonal of the covariance matrix in order
 to ensure that our covariance matrix remains positive definite.
 
 
-```
+``` {.stan}
 data {
   int<lower=1> N;
   real x[N];
@@ -444,7 +444,7 @@ will account for the marginal expected value for $y$. We do this because we
 cannot center count data like we would for normally distributed data.
 
 
-```
+``` {.stan}
 data {
 ...
   int<lower=0> y[N];
@@ -487,7 +487,7 @@ problems. Below $a$ is the bias term, which can help account for imbalanced
 classes in the training data:
 
 
-```
+``` {.stan}
 data {
 ...
   int<lower=0, upper=1> z[N];
@@ -536,7 +536,7 @@ covariance matrix. We'll write a function to generate the Cholesky of the
 covariance matrix called `L_cov_exp_quad_ARD`.
 
 
-```
+``` {.stan}
 functions {
   matrix L_cov_exp_quad_ARD(vector[] x,
                             real alpha,
@@ -667,7 +667,7 @@ f(x \mid a, b, p) &= \dfrac{\left(a/b\right)^{p/2}}{2K_p\left(\sqrt{ab}\right)} 
 which has an inverse gamma left tail if $p \leq 0$ and an inverse Gaussian
 right tail.  This has not yet been implemented in Stan's math library, but it
 is possible to implement as a user defined function:
-```
+``` {.stan}
 functions {
   real generalized_inverse_gaussian_lpdf(real x, int p,
                                         real a, real b) {
@@ -725,7 +725,7 @@ $$
 A direct implementation in Stan defines a model in terms of the
 joint distribution of the observed $y$ and unobserved $\tilde{y}$.
 
-```
+``` {.stan}
 data {
   int<lower=1> N1;
   real x1[N1];
@@ -805,7 +805,7 @@ Consider the following full model for prediction using logistic Gaussian
 process regression.
 
 
-```
+``` {.stan}
 data {
   int<lower=1> N1;
   real x1[N1];
@@ -893,7 +893,7 @@ generate a draw from the posterior predictive mean conditioned on observed data
 to cut down on the the number of matrix-matrix multiplications when computing
 the conditional mean and the conditional covariance of $p(\tilde{y})$.
 
-```
+``` {.stan}
 functions {
   vector gp_pred_rng(real[] x2,
                      vector y1,
@@ -1042,7 +1042,7 @@ This can be implemented in Stan using a latent-variable GP formulation. We've us
 $\mathsf{LKJCorr}$ for $C(\phi)$, but any positive-definite matrix will do.
 
 
-```
+``` {.stan}
 data {
   int<lower=1> N;
   int<lower=1> D;

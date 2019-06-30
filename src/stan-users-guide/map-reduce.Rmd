@@ -32,7 +32,7 @@ just a sequence of inputs.
 
 Stan's map function has the following signature
 
-```
+``` {.stan}
 vector map_rect((vector, vector, real[], int[]):vector f,
                 vector phi, vector[] thetas,
                 data real[ , ] x_rs, data int[ , ] x_is);
@@ -59,7 +59,7 @@ to reduce communication overhead.
 The notation `(vector, vector, real[], int[]):vector` indicates
 that the function argument `f` must have the following signature.
 
-```
+``` {.stan}
 vector f(vector phi, vector theta,
          data real[] x_r, data int[] x_i);
 ```
@@ -76,7 +76,7 @@ data, and integer data arrays.  Each of the arguments `theta`,
 `x_r`, and `x_i` must be arrays of the same size.  If the
 arrays are all size `N`, the result is defined as follows.
 
-```
+``` {.stan}
 map_rect(f, phi, thetas, xs, ns)
 = f(phi, thetas[1], xs[1], ns[1]) . f(phi, thetas[2], xs[2], ns[2])
   . ... . f(phi, thetas[N], xs[N], ns[N])
@@ -100,7 +100,7 @@ Consider the following simple logistic regression model, which is
 coded unconventionally to accomodate direct translation to a mapped
 implementation.
 
-```
+``` {.stan}
 data {
   int y[12];
   real x[12];
@@ -130,7 +130,7 @@ The unmapped logistic regression model described in the previous
 subsection may be implemented using Stan's rectangular mapping
 functionality as follows.
 
-```
+``` {.stan}
 functions {
   vector lr(vector beta, vector theta, real[] x, int[] y) {
     real lp = bernoulli_logit_lpmf(y | beta[1]
@@ -224,7 +224,7 @@ The slopes and intercepts get hierarchical priors,
 
 This model can be coded up in Stan directly as follows.
 
-```
+``` {.stan}
 data {
   int<lower = 0> K;
   int<lower = 0> N;
@@ -258,7 +258,7 @@ and elementwise multiplication (`.*`) for the income `x`.
 The vectorized likelihood works out to the same thing as the following
 less efficient looped form.
 
-```
+``` {.stan}
 for (n in 1:N)
   y[n] ~ bernoulli_logit(beta[kk[n], 1] + beta[kk[n], 2] * x[n]);
 ```
@@ -277,7 +277,7 @@ for a group as well as the prior for the group-specific parameters
 (the name `bl_glm` derives from the fact that it's a generalized
 linear model with a Bernoulli likelihood and logistic link function).
 
-```
+``` {.stan}
 functions {
  vector bl_glm(vector mu_sigma, vector beta,
                real[] x, int[] y) {
@@ -308,7 +308,7 @@ repeated here for convenience.  A transformed data block computes the
 data structures needed for the mapping by organizing the data into
 arrays indexed by group.
 
-```
+``` {.stan}
 data {
   int<lower = 0> K;
   int<lower = 0> N;
@@ -344,7 +344,7 @@ as the previous program.  The model has the same priors for the
 hyperparameters `mu` and `sigma`, but moves the prior for
 `beta` and the likelihood to the mapped function.
 
-```
+``` {.stan}
 parameters {
   vector[2] beta[K];
   vector[2] mu;
